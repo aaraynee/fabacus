@@ -40,6 +40,7 @@ const getEventSeats = (req, res) => {
   redisClient.hgetall(`event:${eventId}`, (err, seats) => {
     if (err) return res.status(500).send(err);
     // Filter only available seats
+    if (!seats) return res.status(400).send({ error: "Seats not found" });
     const availableSeats = Object.keys(seats).filter(
       (seat) => seats[seat] === "available"
     );
