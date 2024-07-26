@@ -73,8 +73,8 @@ const holdSeatHelper = async ({
 }) => {
   redisClient.hgetall(`event:${eventId}`, (err, seats) => {
     if (err) return res.status(500).send(err);
-    const heldSeats = Object.keys(seats).filter((seat) =>
-      seats[seat].includes(`hold:${userId}:`)
+    const heldSeats = Object.keys(seats).filter(
+      (seat) => seats[seat].includes(`hold:${userId}:`) && seat != seatId
     );
     // Limit max number of seats user can hold, the time could also be moved to .env
     if (heldSeats.length >= limit)
